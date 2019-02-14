@@ -25,10 +25,7 @@
 	"require-dev": {
 		"tracy/tracy": "^2.3"
 	},
-
 	"autoload": {
-		"psr-0": {
-			"Imokutr\\": "src/"
-		}
+		"classmap": ["src/"]
 	}
 }
