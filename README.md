@@ -12,26 +12,30 @@ It was created with the following assumptions in mind:
 
 Example:
 
+```
 /disk0/web/files/articles/2018/10/image.jpg
 /disk0/web/files/gallery/pigs/pig01.png
 /disk0/web/files/wallpaper/bifFish.png
-
+```
 2. We have relative paths to these images stored somewhere, like for example in a database:
 
 Example:
 
+```
 id |title                 | url
 1  | Blue image           | /articles/2018/10/Blueimage.jpg
 2  ! Cute pig at our farm | /gallery/pigs/pig01.png
 3  | Big fish             | /wallpaper/bifFish.png
+```
 
 3. We want to easily create and show listing images, perex images or gallery thumbnails images created from original images on a web site.
 
 # Nette integration
 
 ## Composer
-Comming soon
-
+```
+composer install skachcz/imokutr
+```
 
 ## Nette extension registration in neon.config and configuration:
 
@@ -49,8 +53,6 @@ imokutr:
 ```
 
 ## Using in *.latte template:
-
-<img src="/files/original/image1.jpg">
 
 Parameters - width, height, resizeType, cropParameter
 
