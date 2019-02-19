@@ -106,6 +106,23 @@ Inside the macro code, you can use placeholders %url%, %width% and %height%:
 
 # Standalone library
 
+
+# with composer
+
+composer.json
+'''
+{
+    "require": {
+        "skachcz/imokutr": "master-dev"
+    }
+}
+'''
+
+'''
+composer update
+'''
+
+# without composer
 ```
 <?php
 
@@ -133,6 +150,9 @@ or
 
 
 <?php  $img = $kutr->getThumbnail("img1.jpg", 300, 300, 'c', 5); ?>
+
 <?php echo Html::img($img, "Photo", "My photo", ["data-text" => "My text", "onclick" => 'alert("box")', "class" => "red"] ) ?>
+
+
 
 ```
