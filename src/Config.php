@@ -16,6 +16,9 @@ class Config {
     /** @var string */
     public $thumbsRootRelativePath;        
 
+    /** @var string */
+    public $defaultImageRelativePath;
+
     /** @var int */
     public $qualityJpeg;        
 
@@ -23,12 +26,13 @@ class Config {
     public $qualityPng;        
 
     
-    public function __construct(string $originalRootPath, string $thumbsRootPath, string $thumbsRootRelativePath,
-                    int $qualityJpeg = 75, int $qualityPng = 6) {
+    public function __construct(string $originalRootPath, string $thumbsRootPath, string $thumbsRootRelativePath, 
+                    string $defaultImageRelativePath = null, int $qualityJpeg = 75, int $qualityPng = 6) {
 
         $this->originalRootPath = $originalRootPath;
         $this->thumbsRootPath = $thumbsRootPath;
         $this->thumbsRootRelativePath = $thumbsRootRelativePath;
+        $this->defaultImageRelativePath = $defaultImageRelativePath;
         $this->qualityJpeg = $qualityJpeg;
         $this->qualityPng = $qualityPng;
 
@@ -42,6 +46,7 @@ class Config {
             'originalRootPath' => $this->originalRootPath,
             'thumbsRootPath'  => $this->thumbsRootPath,
             'thumbsRootRelativePath' => $this->thumbsRootRelativePath,
+            'defaultImageRelativePath' => $this->defaultImageRelativePath,
             'qualityJpeg' => $this->qualityJpeg,
             'qualityPng' => $this->qualityPng,
         ];

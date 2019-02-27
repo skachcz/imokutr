@@ -26,7 +26,7 @@ if (!class_exists('Nette\DI\CompilerExtension')) {
 final class ImokutrExtension extends CompilerExtension
 {
 
-    /** @var SkachCz\Imokutr\Config */
+    /** @var Config */
     protected $config;
 
     /** @var array */
@@ -34,6 +34,7 @@ final class ImokutrExtension extends CompilerExtension
         'originalRootPath' => null,
         'thumbsRootPath' => null,
         'thumbsRootRelativePath' => null,
+        'defaultImageRelativePath' => null,
         'qualityJpeg' => 75,
         'qualityPng' => 6,
     ];
@@ -52,8 +53,12 @@ final class ImokutrExtension extends CompilerExtension
         Validators::assertField($cfg, 'qualityJpeg', 'int');
         Validators::assertField($cfg, 'qualityPng', 'int');
         
-        $this->config = new Config($cfg['originalRootPath'], $cfg['thumbsRootPath'], $cfg['thumbsRootRelativePath'], 
-                            $cfg['qualityJpeg'], $cfg['qualityPng']);
+        $this->config = new Config($cfg['originalRootPath'], 
+                                    $cfg['thumbsRootPath'], 
+                                    $cfg['thumbsRootRelativePath'], 
+                                    $cfg['defaultImageRelativePath'],
+                                    $cfg['qualityJpeg'], 
+                                    $cfg['qualityPng']);
 
         //imokutr config provider:
         $builder->addDefinition($this->prefix('imokutrProvider'))

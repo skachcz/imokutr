@@ -15,7 +15,7 @@ use SkachCz\Imokutr\Exception\ImokutrWrongMacroParameterException;
  */
  class Imokutr {
 
-    /** @var Imokutr/Config.php */
+    /** @var Config */
     public $config;
 
     public function __construct(Config $config) {
@@ -99,7 +99,7 @@ use SkachCz\Imokutr\Exception\ImokutrWrongMacroParameterException;
             throw new ImokutrWrongMacroParameterException("4 (crop type)", 'integer between 0 - 8');
         }
 
-        return $this->getThumbnail($path, intval($width), intval($height), strval($fixedPar), intval($cropType), $force);
+        return $this->getThumbnail(strval($path), intval($width), intval($height), strval($fixedPar), intval($cropType), $force);
         
     }
 

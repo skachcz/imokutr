@@ -11,7 +11,7 @@ use SkachCz\Imokutr\Thumbnail;
  */
 class ImokutrFilters {
 
-    /** @var SkachCz\Imokutr\Config */
+    /** @var Config */
     public $config;
 
     public function __construct(Config $config)
