@@ -5,6 +5,8 @@ namespace SkachCz\Imokutr;
 use SkachCz\Imokutr\Exception\ImokutrFileNotFoundException;
 use SkachCz\Imokutr\Exception\ImokutrGetImageSizeFailedException;
 
+use Tracy\Debugger;
+
 /**
  * @package SkachCz\Imokutr
  * @author Vladimir Skach
@@ -65,14 +67,30 @@ class Image {
     public $type;    
 
     
-    public function __construct(string $rootPath, string $imagePath)
+    public function __construct(string $rootPath, string $imagePath, string $defaultImagePath = null)
 	{
         $fullpath = rtrim($rootPath, '/') . '/' . ltrim($imagePath, '/');
         
         // check if file exists
-        if (!file_exists($fullpath)) {
-            throw new ImokutrFileNotFoundException($fullpath);
+        if ( ($imagePath == null) || (!file_exists($fullpath)) ){
+         
+            if ($defaultImagePath != null) {
+                
+                $fullpath = rtrim($rootPath, '/') . '/' . ltrim($defaultImagePath, '/');
+
+                if (!file_exists($fullpath)) {
+                    throw new ImokutrFileNotFoundException($fullpath);    
+                }
+
+                $imagePath = $defaultImagePath;
+
+            } else {
+                throw new ImokutrFileNotFoundException($fullpath, "Default image file %s doesn't exist");
+            }
+            
         }
+
+        Debugger::barDump($this, "image");
         
         $this->imagepath = $imagePath;
         $this->fullpath = $fullpath;

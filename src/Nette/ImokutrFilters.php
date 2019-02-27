@@ -38,7 +38,7 @@ class ImokutrFilters {
                 $fixed = Image::DIM_WIDTH;
         }
 
-        $image = new Image($this->config->originalRootPath, $path);
+        $image = new Image($this->config->originalRootPath, $path, $this->config->defaultImageRelativePath);
         $thumbnail = new Thumbnail($this->config, $image);
 
         $thumbnail->setResize($width, $height, $fixed, $cropType);

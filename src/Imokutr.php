@@ -35,7 +35,7 @@ use SkachCz\Imokutr\Exception\ImokutrWrongMacroParameterException;
      */
     public function getThumbnailUrl(string $path, int $width, int $height, int $fixed = Image::DIM_WIDTH, int $cropType = Image::CROP_CENTER, bool $force = false) {
 
-        $image = new Image($this->config->originalRootPath, $path);
+        $image = new Image($this->config->originalRootPath, $path, $this->config->defaultImageRelativePath);
         $thumbnail = new Thumbnail($this->config, $image);
         $thumbnail->setResize($width, $height, $fixed, $cropType);
         $thumbnail->processImage($force);
@@ -65,7 +65,7 @@ use SkachCz\Imokutr\Exception\ImokutrWrongMacroParameterException;
 
         }
 
-        $image = new Image($this->config->originalRootPath, $path);
+        $image = new Image($this->config->originalRootPath, $path, $this->config->defaultImageRelativePath);
         $thumbnail = new Thumbnail($this->config, $image);
         $thumbnail->setResize($width, $height, $fixed, $cropType);
         $thumbnail->processImage($force);

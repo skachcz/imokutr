@@ -20,6 +20,8 @@ class ImokutrFileNotFoundException extends \RuntimeException
             } else {
                 $message = sprintf('Image file "%s" could not be found.', $path);
             }
+        } else {
+            $message = sprintf($message, $path);            
         }
 
         return parent::__construct($message, $code);
