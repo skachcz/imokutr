@@ -90,7 +90,7 @@ class Image {
             
         }
 
-        Debugger::barDump($this, "image");
+        // Debugger::barDump($this, "image");
         
         $this->imagepath = $imagePath;
         $this->fullpath = $fullpath;

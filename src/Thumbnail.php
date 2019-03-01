@@ -6,6 +6,8 @@ use SkachCz\Imokutr\Image;
 use SkachCz\Imokutr\ImageTools;
 use SkachCz\Imokutr\Exception\ImokutrUnknownImageTypeException;
 
+use Tracy\Debugger;
+
 /**
  * Thumbnail class
  * 
@@ -180,15 +182,31 @@ class Thumbnail {
 
             case IMAGETYPE_GIF:
                 
-                \imagealphablending($img, false);
-                \imagesavealpha($img, true );
+                // check transparency
+                $tIndex = imagecolortransparent($src);
+
+                Debugger::barDump($tIndex, "tIndex");
+
+                if ($tIndex >= 0) {
+                    $tColor  = \imagecolorsforindex($src, $tIndex);
+
+                    Debugger::barDump($tColor, "tIndex");
+
+                    $transparency = \imagecolorallocate($img, $tColor['red'], $tColor['green'], $tColor['blue']);
+                    \imagefill($img, 0, 0, $transparency);
+                    \imagecolortransparent($img, $transparency);
+                } else {
+                    \imagealphablending($img, false);
+                    \imagesavealpha($img, true );
+                } 
+
                 \imagecopyresampled($img, $src, 0, 0, 0, 0, $newWidth, $newHeight, $origWidth, $origHeight); 
                 
                 \imagegif($img, $targetPath);
             break;
 
             default:
-                throw new ImokutrUnknownImageTypeException($type, $path);
+                throw new ImokutrUnknownImageTypeException($type, $targetPath);
         }
 
         \imagedestroy($src);
