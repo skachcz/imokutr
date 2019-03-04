@@ -192,5 +192,15 @@ class ImageTools {
         return [$newW, $newH];
     }
 
+    /**
+     * Parse thumbnail url
+     * @return array
+     */        
+
+    public static function parseUrl($url) {
+        
+        return false;
+        
+    }
 
 }
