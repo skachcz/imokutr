@@ -2,6 +2,8 @@
 
 PHP image thumbnailer created with primary use for Nette framework, but also usable as a standalone PHP library.
 
+Documentation: https://vladimir.skach.cz/imokutr
+
 ## The basic philosophy
 
 Imokutr is PHP library designed to automatically generate thumbnails from original images.
