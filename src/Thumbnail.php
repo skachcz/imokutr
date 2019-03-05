@@ -153,7 +153,11 @@ class Thumbnail {
         // Cropping image, if needed.
         if($this->fixedDimension == Image::DIM_CROP) {
             $cropedSize = ImageTools::cropSize($origWidth, $origHeight, $width, $height, $cropType);
-            $src = imagecrop($src, $cropedSize);
+            
+            \imagealphablending($src, false);
+            \imagesavealpha($src, true);
+            
+            $src = \imagecrop($src, $cropedSize);
 
             $origWidth = $cropedSize["width"];
             $origHeight = $cropedSize["height"];
