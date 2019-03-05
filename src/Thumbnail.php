@@ -150,17 +150,28 @@ class Thumbnail {
 
         $src = $this->createImageFrom($this->image->fullpath, $type);
 
-        // Cropping image, if needed.
+        // Cropping image, if needed:
         if($this->fixedDimension == Image::DIM_CROP) {
-            $cropedSize = ImageTools::cropSize($origWidth, $origHeight, $width, $height, $cropType);
-            
-            \imagealphablending($src, false);
-            \imagesavealpha($src, true);
-            
-            $src = \imagecrop($src, $cropedSize);
 
-            $origWidth = $cropedSize["width"];
-            $origHeight = $cropedSize["height"];
+            $cr = ImageTools::cropSize($origWidth, $origHeight, $width, $height, $cropType);
+       
+            $src2 = \imagecreatetruecolor($cr['width'], $cr['height']); 
+            
+            \imagealphablending($src2, false);
+            \imagesavealpha($src2, true);
+       
+            imagecopyresampled(
+                $src2, $src, 
+                0, 0, 
+                $cr['x'], $cr['y'], 
+                $cr['width'], $cr['height'], 
+                $cr['width'], $cr['height']
+            );
+
+            $src = $src2;
+
+            $origWidth = $cr["width"];
+            $origHeight = $cr["height"];
         }
 
         list($newWidth, $newHeight) = ImageTools::resizeRatio($origWidth, $origHeight, $width, $height, $this->fixedDimension);        
@@ -213,6 +224,10 @@ class Thumbnail {
                 throw new ImokutrUnknownImageTypeException($type, $targetPath);
         }
 
+        
+        // NOTICE: copying your reference variable over to another
+        // will cause imagedestroy to destroy both at once.
+        // so imagedestroy($src); will destroy both $src and $src2:
         \imagedestroy($src);
         \imagedestroy($img);
 
