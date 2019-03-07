@@ -40,6 +40,13 @@ final class ImokutrExtension extends CompilerExtension
     ];
 
     /**
+     * @return Config
+     */
+    public function getConfig() {
+        return $this->config;
+    }
+
+    /**
      * @return void
      */
     public function loadConfiguration()
