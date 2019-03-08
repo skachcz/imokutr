@@ -1,7 +1,7 @@
 {
 	"name": "skachcz/imokutr",
 	"type": "library",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"description": "PHP image thumbnailer created with primary use for Nette framework, but also usable as a standalone PHP library",
 	"keywords": [
 		"nette",
