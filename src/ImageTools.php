@@ -46,53 +46,38 @@ class ImageTools {
      */
     public static function cropSize(int $width, int $height, int $targetWidth, int $targetHeight, int $cropType = Image::CROP_CENTER) {
         
-        // the image is landscape or square
-        if ($width >= $height) {
-            
-            if ($targetWidth > $targetHeight) {
-                // the cut is landscape
+        // original image ratio
+        $oRatio = $width / $height;
+        
+        // target image ratio
+        $tRatio = $targetWidth / $targetHeight;
+
+        // the original image is landscape
+        if ($oRatio > 1) {
+
+            if ($tRatio >= $oRatio) {
                 $ratio = $width / $targetWidth;
                 $cropWidth = $width;
                 $cropHeight = intval($targetHeight * $ratio);
-            }
-            
-            if ($targetWidth < $targetHeight) {
-                // the cut is portrait
+            } else  {
                 $ratio = $height / $targetHeight;
                 $cropWidth = intval($targetWidth * $ratio);
                 $cropHeight = $height;
             }
-
-            if ($targetWidth == $targetHeight) {
-                //the cut is square
-                $ratio = $height / $targetHeight;
-                $cropWidth = intval($targetWidth * $ratio);
-                $cropHeight = $height;
-            }
-
+ 
         } else {
-        // image is portrait
+        // original image is portrait or square
 
-            if ($targetWidth > $targetHeight) {
-                // the cut is landscape
+            if ($tRatio >= $oRatio) {
                 $ratio = $width / $targetWidth;
                 $cropWidth = $width;
                 $cropHeight = intval($targetHeight * $ratio);
             }
             
-            if ($targetWidth < $targetHeight) {
-                // the cut is portrait
+            if ($tRatio < $oRatio) {
                 $ratio = $height / $targetHeight;
                 $cropWidth = intval($targetWidth * $ratio);
                 $cropHeight = $height;
-            }
-
-            if ($targetWidth == $targetHeight) {
-                // the cut is square
-                $ratio = $width / $targetWidth;
-                $cropWidth = $width;
-                $cropHeight = intval($targetHeight * $ratio);
-                
             }
         }
 
