@@ -11,26 +11,26 @@ class Config {
     public $originalRootPath;
 
     /** @var string */
-    public $thumbsRootPath;    
+    public $thumbsRootPath;
 
     /** @var string */
-    public $thumbsRootRelativePath;        
+    public $thumbsRootRelativePath;
 
     /** @var string */
     public $defaultImageRelativePath;
 
     /** @var int */
-    public $qualityJpeg;        
+    public $qualityJpeg;
 
     /** @var int */
-    public $qualityPng;        
+    public $qualityPng;
 
-    
-    public function __construct(string $originalRootPath, string $thumbsRootPath, string $thumbsRootRelativePath, 
+
+    public function __construct(string $originalRootPath, string $thumbsRootPath, string $thumbsRootRelativePath,
                     string $defaultImageRelativePath = null, int $qualityJpeg = 75, int $qualityPng = 6) {
 
-        $this->originalRootPath = $originalRootPath;
-        $this->thumbsRootPath = $thumbsRootPath;
+        $this->originalRootPath = $this->replaceAppRoot($originalRootPath);
+        $this->thumbsRootPath = $this->replaceAppRoot($thumbsRootPath);
         $this->thumbsRootRelativePath = $thumbsRootRelativePath;
         $this->defaultImageRelativePath = $defaultImageRelativePath;
         $this->qualityJpeg = $qualityJpeg;
@@ -51,5 +51,14 @@ class Config {
             'qualityPng' => $this->qualityPng,
         ];
     }
-    
+
+    public function replaceAppRoot($path) {
+
+        if (defined('WWW_DIR')) {
+            return str_replace("~", WWW_DIR, $path);
+        } else {
+            return $path;
+        }
+    }
+
 }
