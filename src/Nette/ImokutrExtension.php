@@ -69,7 +69,7 @@ final class ImokutrExtension extends CompilerExtension
 
         //imokutr config provider:
         $builder->addDefinition($this->prefix('imokutrProvider'))
-            ->setClass(Imokutr::class, [$this->config]);
+            ->setFactory(Imokutr::class, [$this->config]);
     }
 
     /**
@@ -81,7 +81,7 @@ final class ImokutrExtension extends CompilerExtension
 
         // a provider for suplying global config values to the macro:
         $builder->getDefinition('latte.latteFactory')
-        ->addSetup('addProvider', ['imokutrProvider', $this->prefix('@imokutrProvider')]);
+        ->getResultDefinition()->addSetup('addProvider', ['imokutrProvider', $this->prefix('@imokutrProvider')]);
         
         if ($builder->hasDefinition('nette.latteFactory')) {
 
@@ -89,14 +89,14 @@ final class ImokutrExtension extends CompilerExtension
 
             // filter registration:
             $filters = new ImokutrFilters($this->config);
-            $factory->addSetup('addFilter', ['imoUrl', [$filters, 'imoUrl']]);
+            $factory->getResultDefinition()->addSetup('addFilter', ['imoUrl', [$filters, 'imoUrl']]);
 
             // macro registration:
             $method = '?->onCompile[] = function($engine)  { 
                 SkachCz\Imokutr\Nette\ImokutrMacros::install($engine->getCompiler()); 
             }';
 
-            $factory->addSetup($method, ['@self']);
+            $factory->getResultDefinition()->addSetup($method, ['@self']);
         }
     }
 
