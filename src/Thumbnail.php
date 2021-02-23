@@ -105,7 +105,7 @@ class Thumbnail {
         if ($force || (!file_exists($targetFile))) {
 
             if(!file_exists($targetPath) && !is_dir($targetPath)) {
-                mkdir($targetPath, 0775, TRUE);
+                @mkdir($targetPath, 0775, TRUE);
             }
 
             $this->createThumbnail($targetFile , $this->targetWidth, $this->targetHeight);
