@@ -19,7 +19,7 @@ if (!class_exists('Nette\DI\CompilerExtension')) {
 
 /**
  * Imokutr Nette extension (for Nette 2.4)
- * 
+ *
  * @package SkachCz\Imokutr\Nette
  * @author Vladimir Skach
  */
@@ -59,17 +59,21 @@ final class ImokutrExtension extends CompilerExtension
         Validators::assertField($cfg, 'thumbsRootRelativePath', 'string');
         Validators::assertField($cfg, 'qualityJpeg', 'int');
         Validators::assertField($cfg, 'qualityPng', 'int');
-        
-        $this->config = new Config($cfg['originalRootPath'], 
-                                    $cfg['thumbsRootPath'], 
-                                    $cfg['thumbsRootRelativePath'], 
+
+        $this->config = new Config($cfg['originalRootPath'],
+                                    $cfg['thumbsRootPath'],
+                                    $cfg['thumbsRootRelativePath'],
                                     $cfg['defaultImageRelativePath'],
-                                    $cfg['qualityJpeg'], 
+                                    $cfg['qualityJpeg'],
                                     $cfg['qualityPng']);
 
         //imokutr config provider:
         $builder->addDefinition($this->prefix('imokutrProvider'))
-            ->setClass(Imokutr::class, [$this->config]);
+            ->setFactory(Imokutr::class, [$this->config]);
+        /*
+        $builder->addDefinition($this->prefix('imokutrProvider'))
+            ->setFactory(Imokutr::class, [$this->config]);
+        */
     }
 
     /**
@@ -79,24 +83,44 @@ final class ImokutrExtension extends CompilerExtension
     {
         $builder = $this->getContainerBuilder();
 
-        // a provider for suplying global config values to the macro:
-        $builder->getDefinition('latte.latteFactory')
-        ->addSetup('addProvider', ['imokutrProvider', $this->prefix('@imokutrProvider')]);
-        
+        $methodExists = method_exists($builder->getDefinition('latte.latteFactory'), 'getResultDefinition');
+
+        if ($methodExists) {
+            /* nette 3.0: */
+            $builder->getDefinition('latte.latteFactory')
+                ->getResultDefinition()->addSetup('addProvider', ['imokutrProvider', $this->prefix('@imokutrProvider')]);
+        } else {
+            $builder->getDefinition('latte.latteFactory')
+                ->addSetup('addProvider', ['imokutrProvider', $this->prefix('@imokutrProvider')]);
+        }
+
         if ($builder->hasDefinition('nette.latteFactory')) {
 
             $factory = $builder->getDefinition('nette.latteFactory');
 
             // filter registration:
             $filters = new ImokutrFilters($this->config);
-            $factory->addSetup('addFilter', ['imoUrl', [$filters, 'imoUrl']]);
+
+
+            if ($methodExists) {
+                /* nette 3.0 */
+                $factory->getResultDefinition()->addSetup('addFilter', ['imoUrl', [$filters, 'imoUrl']]);
+            } else {
+                $factory->addSetup('addFilter', ['imoUrl', [$filters, 'imoUrl']]);
+            }
 
             // macro registration:
-            $method = '?->onCompile[] = function($engine)  { 
-                SkachCz\Imokutr\Nette\ImokutrMacros::install($engine->getCompiler()); 
+            $method = '?->onCompile[] = function($engine)  {
+                SkachCz\Imokutr\Nette\ImokutrMacros::install($engine->getCompiler());
             }';
 
-            $factory->addSetup($method, ['@self']);
+            if ($methodExists) {
+                /* nette 3.0 */
+                $factory->getResultDefinition()->addSetup($method, ['@self']);
+            } else {
+                $factory->addSetup($method, ['@self']);
+            }
+
         }
     }
 
