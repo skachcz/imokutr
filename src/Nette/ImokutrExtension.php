@@ -14,7 +14,7 @@ use Nette\PhpGenerator\ClassType;
 use Nette\Utils\Validators;
 
 if (!class_exists('Nette\DI\CompilerExtension')) {
-    throw ImokutrNetteMissingExtension();
+    throw new ImokutrNetteMissingExtension();
 }
 
 /**
