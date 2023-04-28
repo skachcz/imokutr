@@ -107,10 +107,12 @@ class Image {
 
         list($width, $height, $type) = @getimagesize($this->fullpath);
         
-        if (strpos(error_get_last()["message"], 'getimagesize(') === 0) {
-           throw new ImokutrGetImageSizeFailedException($this->fullpath, error_get_last()["message"]);
-            // It starts with 'http'
-         }
+        $lastError = error_get_last();
+        
+        if ($lastError !== null && strpos($lastError["message"], 'getimagesize(') === 0) 
+        {
+           throw new ImokutrGetImageSizeFailedException($this->fullpath, $lastError["message"]);
+        }
 
         $this->width = $width;
         $this->height = $height;
