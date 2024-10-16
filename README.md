@@ -1,5 +1,11 @@
 # imokutr
 
+**The library is no longer updated.**
+
+For the new version go to:
+https://github.com/skachcz/imokutr3
+
+
 PHP image thumbnailer created with primary use for Nette framework, but also usable as a standalone PHP library.
 
 Documentation: https://vladimir.skach.cz/imokutr
@@ -10,7 +16,7 @@ Imokutr is PHP library designed to automatically generate thumbnails from origin
 
 It was created with the following assumptions in mind:
 
-1. We have some original images in directories. 
+1. We have some original images in directories.
 
 Example:
 
@@ -135,14 +141,14 @@ use SkachCz\Imokutr\Html;
 require_once(__DIR__ . "/Imokutr/imokutr.php");
 
 $config = new Config(
-    __DIR__ . "/images/original", 
-    __DIR__ . "/images/thumbs", 
+    __DIR__ . "/images/original",
+    __DIR__ . "/images/thumbs",
     "/images/thumbs"
     );
 
 $kutr = new Imokutr($config);
 
-<?php  
+<?php
 // original image is in /images/original/img1.jpg
 $img = $kutr->getThumbnail("img1.jpg", 200, 100, 'w'); ?>
 
